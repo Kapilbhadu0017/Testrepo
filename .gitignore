@@ -1,0 +1,51 @@
+# 🟦 Node.js & React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.vite/
+dist/
+build/
+
+# 🌬️ Tailwind & Vite
+*.css.map
+*.js.map
+*.ts.map
+tailwind.config.js
+postcss.config.js
+
+# 🐍 Python & FastAPI
+venv/
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+*.sqlite3
+*.db
+env/
+*.log
+
+# 🧪 Test Files
+coverage/
+*.lcov
+pytest_cache/
+.cache/
+
+# 🧠 AI & Models (if used in backend later)
+*.pt
+*.h5
+*.pkl
+*.joblib
+
+# 🛠️ System & Editors
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# 📦 Misc
+start-dev.bat
+start-dev.ps1

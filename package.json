@@ -1,0 +1,28 @@
+{
+  "name": "vayucheck-plus",
+  "version": "1.0.0",
+  "description": "AI-Powered Air Quality & Health Companion",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd frontend && npm install",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+  },
+  "keywords": [
+    "air-quality",
+    "health",
+    "ai",
+    "react",
+    "fastapi"
+  ],
+  "author": "KAPIL CHOUDHARY",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

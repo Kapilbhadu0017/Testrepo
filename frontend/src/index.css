@@ -1,0 +1,937 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Define CSS variables for both light and dark themes.
+  - Light theme is the default (:root).
+  - Dark theme is applied when the .dark class is on the html element.
+*/
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+
+  /* Custom variables */
+  --theme-switcher-bg: hsl(210 40% 96.1%);
+  --theme-switcher-knob: hsl(0 0% 100%);
+  
+  --btn-primary-bg: hsl(var(--primary));
+  --btn-primary-text: hsl(var(--primary-foreground));
+  --btn-primary-hover-bg: hsl(222.2 47.4% 20%);
+  
+  --btn-secondary-bg: hsl(var(--secondary));
+  --btn-secondary-text: hsl(var(--secondary-foreground));
+  --btn-secondary-hover-bg: hsl(210 40% 92%);
+
+  --font-sans: "Inter", sans-serif;
+
+  /* Enhanced Light Theme Colors */
+  --neon-green: #10b981;
+  --neon-teal: #06b6d4;
+  --neon-blue: #3b82f6;
+  --neon-purple: #8b5cf6;
+  --neon-pink: #ec4899;
+  --light-bg: #f8fafc;
+  --lighter-bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --border-glow: #10b981;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --success-green: #059669;
+  --warning-yellow: #d97706;
+  --error-red: #dc2626;
+  --focus-ring: #10b981;
+
+  /* Enhanced gradients */
+  --gradient-primary: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
+  --gradient-accent: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+}
+
+html.dark {
+  /* Enhanced futuristic neon theme variables */
+  --neon-purple: #a855f7;
+  --neon-pink: #ec4899;
+  --neon-blue: #06b6d4;
+  --neon-cyan: #22d3ee;
+  --neon-green: #10b981;
+  --dark-bg: #0a0a1a;
+  --darker-bg: #050510;
+  --card-bg: rgba(26, 26, 46, 0.9);
+  --border-glow: rgba(16, 185, 129, 0.6);
+
+  --background: 240 10% 3.9%;
+  --foreground: 60 9.1% 97.8%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 60 9.1% 97.8%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 60 9.1% 97.8%;
+  --primary: 60 9.1% 97.8%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 60 9.1% 97.8%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 60 9.1% 97.8%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  
+  --theme-switcher-bg: hsl(217.2 32.6% 25%);
+  --theme-switcher-knob: hsl(222.2 84% 4.9%);
+
+  --btn-primary-bg: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  --btn-primary-text: white;
+  --btn-primary-hover-bg: linear-gradient(135deg, hsl(263, 91%, 70%), hsl(329, 79%, 60%));
+  
+  --btn-secondary-bg: linear-gradient(135deg, var(--neon-blue), #22d3ee);
+  --btn-secondary-text: white;
+  --btn-secondary-hover-bg: linear-gradient(135deg, hsl(197, 95%, 50%), hsl(187, 83%, 55%));
+  
+  /* Enhanced dark gradients */
+  --gradient-primary: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%);
+  --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #67e8f9 100%);
+  --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+}
+
+@layer base {
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Base styles for the app */
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* Light theme background with subtle green tint */
+html:not(.dark) body {
+  background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 25%, #f0fdf4 50%, #f7fee7 75%, #fefce8 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+html:not(.dark) body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+html.dark body {
+  background-color: var(--dark-bg);
+  background-image: 
+    linear-gradient(-45deg, #0a0a1a, #1a1a2e, #2d1b69, #0a0a1a),
+    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+  background-size: 400% 400%, 100% 100%, 100% 100%, 100% 100%;
+  animation: gradientShift 20s ease infinite;
+  position: relative;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%, 0% 0%, 0% 0%, 0% 0%; }
+  50% { background-position: 100% 50%, 0% 0%, 0% 0%, 0% 0%; }
+  100% { background-position: 0% 50%, 0% 0%, 0% 0%, 0% 0%; }
+}
+
+/* General button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  ring-offset: hsl(var(--background));
+  ring: 2px;
+  ring-color: hsl(var(--ring));
+}
+
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  transform: none !important;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  transform: translateY(0);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.4);
+}
+
+html.dark .btn-primary {
+  background: var(--gradient-primary);
+  box-shadow: 0 4px 14px 0 rgba(168, 85, 247, 0.3);
+}
+
+html.dark .btn-primary:hover {
+  box-shadow: 0 8px 25px 0 rgba(168, 85, 247, 0.4);
+}
+
+.btn-secondary {
+  background: var(--gradient-secondary);
+  color: white;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.3);
+  transform: translateY(0);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(6, 182, 212, 0.4);
+}
+
+html.dark .btn-secondary {
+  background: var(--gradient-secondary);
+  box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.3);
+}
+
+html.dark .btn-secondary:hover {
+  box-shadow: 0 8px 25px 0 rgba(6, 182, 212, 0.4);
+}
+
+/* Futuristic card style (only for dark mode) */
+html.dark .card-futuristic {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glow);
+  border-radius: 16px;
+  box-shadow: 
+    0 0 20px rgba(168, 85, 247, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+html.dark .card-futuristic:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 
+    0 0 30px rgba(168, 85, 247, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Clean card style for light mode */
+.card-clean {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  color: hsl(var(--card-foreground));
+  border-radius: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card-clean:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Apply card styles based on theme */
+.themed-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  color: hsl(var(--card-foreground));
+  border-radius: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.themed-card:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+html.dark .themed-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glow);
+  border-radius: 16px;
+  box-shadow: 
+    0 0 20px rgba(168, 85, 247, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+html.dark .themed-card:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 
+    0 0 30px rgba(168, 85, 247, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Input styles */
+.input-themed {
+  display: flex;
+  height: 2.75rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 2px solid rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+}
+
+.input-themed:focus-visible {
+  outline: none;
+  border-color: var(--neon-green);
+  box-shadow: 
+    0 0 0 3px rgba(16, 185, 129, 0.1),
+    0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.input-themed:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none !important;
+}
+
+.input-themed::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+html.dark .input-themed {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%);
+  border: 2px solid var(--border-glow);
+  color: hsl(var(--foreground));
+  backdrop-filter: blur(10px);
+}
+
+html.dark .input-themed:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 
+    0 0 0 3px rgba(168, 85, 247, 0.1),
+    0 0 20px rgba(168, 85, 247, 0.2);
+  transform: translateY(-1px);
+}
+
+html.dark .input-themed::placeholder {
+  color: var(--text-muted);
+}
+
+/* Checkbox styles */
+.checkbox-themed {
+  appearance: none;
+  background-color: hsl(var(--background));
+  border: 2px solid hsl(var(--border));
+  border-radius: 0.375rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.checkbox-themed:checked {
+  background: var(--gradient-primary);
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  transform: scale(1.05);
+}
+
+.checkbox-themed:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #10b981;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  animation: checkmarkAppear 0.2s ease-out;
+}
+
+@keyframes checkmarkAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.checkbox-themed:hover {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+}
+
+html.dark .checkbox-themed {
+  background: rgba(26, 26, 46, 0.8);
+  border: 2px solid var(--border-glow);
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  backdrop-filter: blur(10px);
+}
+
+html.dark .checkbox-themed:checked {
+  background: var(--gradient-primary);
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+html.dark .checkbox-themed:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+html.dark .checkbox-themed:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+
+/* Custom scrollbar for dark mode */
+html.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, hsl(263, 91%, 70%), hsl(329, 79%, 60%));
+}
+
+/* Futuristic input styles */
+.input-futuristic {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.input-futuristic:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+  outline: none;
+}
+
+.input-futuristic::placeholder {
+  color: var(--text-muted);
+}
+
+/* Light theme input styles */
+html:not(.dark) .input-futuristic {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #1f2937;
+}
+
+html:not(.dark) .input-futuristic:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+html:not(.dark) .input-futuristic::placeholder {
+  color: #6b7280;
+}
+
+/* Futuristic checkbox styles */
+.checkbox-futuristic {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid var(--border-glow);
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+html.dark .checkbox-futuristic {
+  border-color: rgba(168, 85, 247, 0.6);
+}
+
+html:not(.dark) .checkbox-futuristic {
+  border-color: #10b981;
+}
+
+.checkbox-futuristic:checked {
+  transform: scale(1.05);
+}
+
+html.dark .checkbox-futuristic:checked {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-color: #a855f7;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+html:not(.dark) .checkbox-futuristic:checked {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #059669;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.checkbox-futuristic:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #10b981;
+  font-weight: bold;
+  line-height: 1;
+  animation: checkmarkAppear 0.2s ease-out;
+}
+
+html.dark .checkbox-futuristic:checked::after {
+  font-size: 14px;
+}
+
+html:not(.dark) .checkbox-futuristic:checked::after {
+  font-size: 12px;
+}
+
+html.dark .checkbox-futuristic:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+
+html:not(.dark) .checkbox-futuristic:hover {
+  border-color: #059669;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Form label styles */
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Status message styles */
+.status-success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success-green);
+  color: var(--success-green);
+}
+
+.status-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid var(--warning-yellow);
+  color: var(--warning-yellow);
+}
+
+.status-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error-red);
+  color: var(--error-red);
+}
+
+/* Neon glow effects */
+.neon-glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+.neon-glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+.neon-glow-blue {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+/* Animated background */
+.animated-bg {
+  background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #2d1b69, #0f0f23);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+}
+
+/* Spinner animation */
+.spinner-futuristic {
+  border: 2px solid transparent;
+  border-top: 2px solid var(--neon-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+html.dark .spinner-futuristic {
+  border-top-color: var(--neon-purple);
+}
+
+.spinner-pulse {
+  border: 2px solid transparent;
+  border-top: 2px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite reverse;
+}
+
+html.dark .spinner-pulse {
+  border-top-color: rgba(168, 85, 247, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Firefly particles */
+.firefly {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--neon-purple);
+  border-radius: 50%;
+  animation: firefly 6s ease-in-out infinite;
+  opacity: 0;
+  box-shadow: 0 0 8px var(--neon-purple);
+}
+
+/* Light theme firefly particles */
+html:not(.dark) .firefly {
+  background: #34d399;
+  box-shadow: 0 0 12px 2px #34d399;
+}
+
+@keyframes firefly {
+  0%, 100% { opacity: 0; transform: translateY(0px) scale(0); }
+  50% { opacity: 1; transform: translateY(-20px) scale(1); }
+}
+
+/* Generate multiple fireflies with different delays */
+.firefly:nth-child(1) { left: 10%; animation-delay: 0s; }
+.firefly:nth-child(2) { left: 20%; animation-delay: 1s; }
+.firefly:nth-child(3) { left: 30%; animation-delay: 2s; }
+.firefly:nth-child(4) { left: 40%; animation-delay: 3s; }
+.firefly:nth-child(5) { left: 50%; animation-delay: 4s; }
+.firefly:nth-child(6) { left: 60%; animation-delay: 5s; }
+.firefly:nth-child(7) { left: 70%; animation-delay: 0.5s; }
+.firefly:nth-child(8) { left: 80%; animation-delay: 1.5s; }
+.firefly:nth-child(9) { left: 90%; animation-delay: 2.5s; }
+.firefly:nth-child(10) { left: 95%; animation-delay: 3.5s; }
+
+/* Light theme specific styles */
+html:not(.dark) {
+  /* Form elements with green borders and lifted appearance */
+  input, textarea, select {
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    background: white;
+    color: #1f2937;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 2px 4px rgba(16, 185, 129, 0.2);
+    outline: none;
+  }
+
+  /* Search bar specific styling */
+  .search-bar, input[type="search"] {
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+    background: white;
+    color: #1f2937;
+  }
+
+  .search-bar:focus, input[type="search"]:focus {
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 4px 8px rgba(16, 185, 129, 0.2);
+  }
+
+  /* Tab styling with green borders and lifted appearance */
+  .tab, .nav-tab, [role="tab"] {
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    background: white;
+    color: #1f2937;
+    transition: all 0.2s ease;
+  }
+
+  .tab:hover, .nav-tab:hover, [role="tab"]:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .tab.active, .nav-tab.active, [role="tab"][aria-selected="true"] {
+    border-color: #059669;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* Button styling with green borders and lifted appearance */
+  button {
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  button:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* Primary button styling */
+  button.primary, button[type="submit"] {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: #059669;
+    color: white;
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  button.primary:hover, button[type="submit"]:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.25), 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Location icon button styling */
+  button[aria-label*="location"] svg {
+    color: #10b981;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  button[aria-label*="location"]:hover svg {
+    color: #059669;
+  }
+
+  /* Secondary button styling for location button */
+  button.btn-secondary {
+    background: white;
+    border: 2px solid #10b981;
+    color: #10b981;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  button.btn-secondary:hover {
+    background: #f0fdf4;
+    border-color: #059669;
+    color: #059669;
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+}
+
+/* Dark theme specific styles */
+html.dark {
+  /* Location icon button styling for dark mode */
+  button[aria-label*="location"] svg {
+    color: #8b5cf6;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  button[aria-label*="location"]:hover svg {
+    color: #a855f7;
+  }
+
+  /* Secondary button styling for location button in dark mode */
+  button.btn-secondary {
+    background: #1e1b4b;
+    border: 2px solid #8b5cf6;
+    color: #8b5cf6;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  button.btn-secondary:hover {
+    background: #312e81;
+    border-color: #a855f7;
+    color: #a855f7;
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  /* AI Advice Section styling for dark mode */
+  #ai-advice-section {
+    background: rgba(30, 27, 75, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 
+      0 8px 32px rgba(139, 92, 246, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  }
+
+  #ai-advice-section h3 {
+    color: #a855f7 !important;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5) !important;
+  }
+
+  #ai-advice-section .prose {
+    color: #e2e8f0 !important;
+  }
+
+  #ai-advice-section .prose p {
+    color: #e2e8f0 !important;
+  }
+
+  #ai-advice-section .prose strong {
+    color: #f1f5f9 !important;
+  }
+
+  #ai-advice-section .prose ul {
+    color: #e2e8f0 !important;
+  }
+
+  #ai-advice-section .prose li {
+    color: #e2e8f0 !important;
+  }
+
+  #ai-advice-section p:last-child {
+    color: #a855f7 !important;
+    text-shadow: 0 0 5px rgba(168, 85, 247, 0.3) !important;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html,
+div {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Light theme checkbox-themed styles */
+html:not(.dark) .checkbox-themed {
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+}
+
+html:not(.dark) .checkbox-themed:checked {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  transform: scale(1.05);
+}
+
+html:not(.dark) .checkbox-themed:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  animation: checkmarkAppear 0.2s ease-out;
+}
+
+html:not(.dark) .checkbox-themed:hover {
+  border-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Style for map tiles in dark mode */
+.map-dark .leaflet-tile {
+    filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
