@@ -702,114 +702,108 @@ html:not(.dark) .firefly {
 .firefly:nth-child(10) { left: 95%; animation-delay: 3.5s; }
 
 /* Light theme specific styles */
-html:not(.dark) {
-  /* Form elements with green borders and lifted appearance */
-  input, textarea, select {
-    border: 2px solid #10b981;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-    background: white;
-    color: #1f2937;
-  }
+html:not(.dark) .search-bar,
+html:not(.dark) input[type="search"],
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: white;
+  color: #1f2937;
+}
 
-  input:focus, textarea:focus, select:focus {
-    border-color: #059669;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 2px 4px rgba(16, 185, 129, 0.2);
-    outline: none;
-  }
+html:not(.dark) .search-bar:focus,
+html:not(.dark) input[type="search"]:focus,
+html:not(.dark) input:focus,
+html:not(.dark) textarea:focus,
+html:not(.dark) select:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 2px 4px rgba(16, 185, 129, 0.2);
+  outline: none;
+}
 
-  /* Search bar specific styling */
-  .search-bar, input[type="search"] {
-    border: 2px solid #10b981;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
-    background: white;
-    color: #1f2937;
-  }
+html:not(.dark) .tab,
+html:not(.dark) .nav-tab,
+html:not(.dark) [role="tab"] {
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: white;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
 
-  .search-bar:focus, input[type="search"]:focus {
-    border-color: #059669;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 4px 8px rgba(16, 185, 129, 0.2);
-  }
+html:not(.dark) .tab:hover,
+html:not(.dark) .nav-tab:hover,
+html:not(.dark) [role="tab"]:hover {
+  border-color: #059669;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
 
-  /* Tab styling with green borders and lifted appearance */
-  .tab, .nav-tab, [role="tab"] {
-    border: 2px solid #10b981;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-    background: white;
-    color: #1f2937;
-    transition: all 0.2s ease;
-  }
+html:not(.dark) .tab.active,
+html:not(.dark) .nav-tab.active,
+html:not(.dark) [role="tab"][aria-selected="true"] {
+  border-color: #059669;
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
 
-  .tab:hover, .nav-tab:hover, [role="tab"]:hover {
-    border-color: #059669;
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-  }
+html:not(.dark) button {
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
 
-  .tab.active, .nav-tab.active, [role="tab"][aria-selected="true"] {
-    border-color: #059669;
-    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-  }
+html:not(.dark) button:hover {
+  border-color: #059669;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
 
-  /* Button styling with green borders and lifted appearance */
-  button {
-    border: 2px solid #10b981;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-  }
+html:not(.dark) button.primary,
+html:not(.dark) button[type="submit"] {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #059669;
+  color: white;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  button:hover {
-    border-color: #059669;
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-  }
+html:not(.dark) button.primary:hover,
+html:not(.dark) button[type="submit"]:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.25), 0 3px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
 
-  /* Primary button styling */
-  button.primary, button[type="submit"] {
-    background: linear-gradient(135deg, #10b981, #059669);
-    border-color: #059669;
-    color: white;
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+html:not(.dark) button[aria-label*="location"] svg {
+  color: #10b981;
+  width: 1.25rem;
+  height: 1.25rem;
+}
 
-  button.primary:hover, button[type="submit"]:hover {
-    background: linear-gradient(135deg, #059669, #047857);
-    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.25), 0 3px 6px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-  }
+html:not(.dark) button[aria-label*="location"]:hover svg {
+  color: #059669;
+}
 
-  /* Location icon button styling */
-  button[aria-label*="location"] svg {
-    color: #10b981;
-    width: 1.25rem;
-    height: 1.25rem;
-  }
+html:not(.dark) button.btn-secondary {
+  background: white;
+  border: 2px solid #10b981;
+  color: #10b981;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
 
-  button[aria-label*="location"]:hover svg {
-    color: #059669;
-  }
-
-  /* Secondary button styling for location button */
-  button.btn-secondary {
-    background: white;
-    border: 2px solid #10b981;
-    color: #10b981;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-  }
-
-  button.btn-secondary:hover {
-    background: #f0fdf4;
-    border-color: #059669;
-    color: #059669;
-    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-  }
+html:not(.dark) button.btn-secondary:hover {
+  background: #f0fdf4;
+  border-color: #059669;
+  color: #059669;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 /* Dark theme specific styles */
