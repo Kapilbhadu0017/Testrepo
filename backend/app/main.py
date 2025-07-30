@@ -1,10 +1,4 @@
 import os
-
-# Set cache dir to D: drive before importing anything else
-os.environ["HF_HOME"] = "D:/hf_cache"
-os.environ["TRANSFORMERS_CACHE"] = "D:/hf_cache"
-os.environ["HF_HUB_CACHE"] = "D:/hf_cache"
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os

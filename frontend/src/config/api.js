@@ -8,9 +8,7 @@ const API_CONFIG = {
     AQI: '/aqi/aqi',
     CHARTS: '/aqi/charts',
     YEARLY_CHARTS: '/aqi/charts',
-    SUGGEST: '/suggest/ask-vayu',
-    HEALTH: '/health/submit',
-    HISTORY: '/aqi-history'
+    SUGGEST: '/suggest/ask-vayu'
   },
   
   // External APIs

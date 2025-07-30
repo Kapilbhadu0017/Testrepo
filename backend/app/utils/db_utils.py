@@ -41,8 +41,6 @@ except Exception as e:
 
 # Select database and collections
 db = client[DB_NAME] if client else None
-users_collection = db["users"] if db is not None else None
-user_inputs_collection = db["user_inputs"] if db is not None else None
 aqi_collection = db["aqi_data"] if db is not None else None
 
 # Function to check database health

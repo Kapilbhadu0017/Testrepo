@@ -5,7 +5,6 @@ import Sidebar from "./components/Sidebar";
 import DataCharts from "./components/DataCharts";
 import ParticlesBackground from "./components/ParticlesBackground";
 import PerformanceMonitor from "./components/PerformanceMonitor";
-// import AskVayuChat from "./components/AskVayuChat";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { buildApiUrl } from "./config/api";
 import ReactMarkdown from 'react-markdown';
@@ -239,10 +238,6 @@ export default function App() {
     await fetchAQI({ lat: latlng.lat, lon: latlng.lng });
     setShowMap(false);
   }, [fetchAQI]);
-
-  const handleAqiDataChange = useCallback((aqiData) => {
-    setCurrentAqiData(aqiData);
-  }, []);
 
   // Listen for sidebar state from Sidebar component
   const handleSidebarState = useCallback((collapsed) => {

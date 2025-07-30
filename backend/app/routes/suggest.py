@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException
 from app.models.schemas import SuggestionRequest
 import logging
 import google.generativeai as genai
-import os
 from google.api_core import exceptions
 
 # Configure logging
