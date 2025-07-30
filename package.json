@@ -23,6 +23,7 @@
     "concurrently": "^8.2.2"
   },
   "dependencies": {
+    "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7"
   }
 }

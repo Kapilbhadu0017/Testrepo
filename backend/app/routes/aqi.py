@@ -685,143 +685,51 @@ def get_chart_data_endpoint(level: str, days: int = 30, lat: float = None, lon: 
     if level == "location":
         if lat is None or lon is None:
             raise HTTPException(status_code=400, detail="lat and lon are required for location level")
-        
+
         current_aqi_data = None
-        if aqi is not None and 0 < aqi < 2000: # Added validation for safety
+        if aqi is not None and 0 < aqi < 2000:
             logger.info(f"Using AQI from frontend: {aqi}")
             current_aqi_data = {"aqi": aqi, "source": "frontend"}
         else:
             logger.info(f"Fetching AQI for location ({lat}, {lon}) from backend.")
             current_aqi_data = _get_aqi_for_location(lat, lon)
-        
-        data = get_local_database_data(
-            level="location", 
-            location={"lat": lat, "lon": lon}, 
+
+        return get_local_database_data(
+            level="location",
+            location={"lat": lat, "lon": lon},
             days=days,
             current_aqi=current_aqi_data
         )
-        return data
 
     if level == "state":
-        if isinstance(current_aqi.get("aqi"), str) and current_aqi.get("aqi").isdigit():
-            base_aqi = int(current_aqi["aqi"])
+        if not state:
+             # If no state is provided, try to get it from the lat/lon if they exist
+            if lat is not None and lon is not None:
+                try:
+                    geo_info = _get_aqi_for_location(lat, lon)
+                    if geo_info and geo_info.get("city"):
+                        state = get_state_from_city(geo_info["city"])
+                except Exception:
+                    pass # Ignore if reverse geocoding fails
 
-        pseudo_data = []
-        # Generate a more realistic wave-like pattern for the historical data
-        for i in range(days, 0, -1):
-            day = end_date - datetime.timedelta(days=i)
-            
-            # Use a sine wave for more natural-looking daily and weekly variations
-            daily_variation = random.uniform(-7, 7) * math.sin(i * math.pi / 1) # Fast daily changes
-            weekly_variation = random.uniform(-10, 10) * math.sin(i * math.pi / 3.5) # Slower weekly trend
-            
-            # Add some random noise to make it less predictable
-            noise = random.uniform(-5, 5)
+            if not state:
+                raise HTTPException(status_code=400, detail="A 'state' parameter is required for state-level data.")
 
-            # Combine variations and ensure the result is a positive integer
-            calculated_aqi = base_aqi + daily_variation + weekly_variation + noise
-            realistic_aqi = max(5, int(calculated_aqi))
-            
-            doc = {
-                "aqi": realistic_aqi,
-                "city": current_aqi.get("city", "Unknown"),
-                "dominant": current_aqi.get("dominant", "pm25"),
-                "pm25": max(0, realistic_aqi * 0.8 + random.uniform(-5, 5)),
-                "pm10": max(0, realistic_aqi * 1.2 + random.uniform(-5, 5)),
-                "o3": max(0, 30 + random.uniform(-10, 10)),
-                "co": max(0, 1 + random.uniform(-0.5, 0.5)),
-                "no2": max(0, 20 + random.uniform(-5, 5)),
-                "so2": max(0, 5 + random.uniform(-2, 2)),
-                "timestamp": day,
-            }
-            if level == "state":
-                doc["state"] = state
-            else:
-                doc["lat"] = location["lat"]
-                doc["lon"] = location["lon"]
-            safe_insert(aqi_collection, doc)
-            pseudo_data.append(doc)
-        # Re-run aggregation after inserting pseudo-data
-        result = list(aqi_collection.aggregate(pipeline))
+        # For state, we don't have a single 'current_aqi', so we pass None
+        # The data generation logic can handle this
+        return get_local_database_data(
+            level="state",
+            state=state,
+            days=days,
+            current_aqi=None # Pass None for state level
+        )
 
-    if not result:
-        # If no real data, return empty array with message
-        return {
-            "status": "ok",
-            "level": level,
-            "days": days,
-            "data": [],
-            "message": f"No historical data available. Search for a location to start collecting data."
-        }
-    
-    # Transform the data to match expected format
-    data = []
-    for item in result:
-        # Skip entries with invalid AQI values
-        if item.get("aqi") and item["aqi"] != "N/A" and item["aqi"] > 0:
-            date_str = item["_id"]
-            
-            data.append({
-                "date": date_str,
-                "aqi": round(float(item["aqi"])),
-                "pm25": round(float(item["pm25"])) if item.get("pm25") and item["pm25"] != "N/A" else 0,
-                "pm10": round(float(item["pm10"])) if item.get("pm10") and item["pm10"] != "N/A" else 0,
-                "o3": round(float(item["o3"])) if item.get("o3") and item["o3"] != "N/A" else 0,
-                "no2": round(float(item["no2"])) if item.get("no2") and item["no2"] != "N/A" else 0,
-                "co": round(float(item["co"])) if item.get("co") and item["co"] != "N/A" else 0,
-                "so2": round(float(item["so2"])) if item.get("so2") and item["so2"] != "N/A" else 0
-            })
-    
-    # If we have some data but not enough for the requested period, fill gaps
-    if data and len(data) < days:
-        # Create a complete date range
-        all_periods = []
-        for i in range(days):
-            date = end_date - datetime.timedelta(days=i)
-            all_periods.append(date.strftime("%Y-%m-%d"))
-        all_periods.reverse()
-        
-        # Fill missing periods with interpolated values
-        complete_data = []
-        data_dict = {item["date"]: item for item in data}
-        
-        for period in all_periods:
-            if period in data_dict:
-                complete_data.append(data_dict[period])
-            else:
-                # Find nearest available data for interpolation
-                nearest_data = None
-                for item in data:
-                    if abs((datetime.datetime.strptime(item["date"], "%Y-%m-%d") - 
-                           datetime.datetime.strptime(period, "%Y-%m-%d")).days) <= 3:
-                        nearest_data = item
-                        break
-                
-                if nearest_data:
-                    complete_data.append({
-                        "date": period,
-                        "aqi": nearest_data["aqi"],
-                        "pm25": nearest_data["pm25"],
-                        "pm10": nearest_data["pm10"],
-                        "o3": nearest_data["o3"],
-                        "no2": nearest_data["no2"],
-                        "co": nearest_data["co"],
-                        "so2": nearest_data["so2"]
-                    })
-        
-        data = complete_data
-    
-    return {
-        "status": "ok",
-        "level": level,
-        "days": days,
-        "data": data,
-        "real_data_count": len([item for item in result if item.get("aqi") and item["aqi"] != "N/A"]),
-        "grouping": group_name,
-        "source": "Local Database",
-        "state": state if level == "state" else None
-    }
+    # Handle other levels like country and world if they don't need location/state specifics
+    if level in ["country", "world"]:
+        return get_global_chart_data(level, days)
 
+    # Fallback for any other level
+    raise HTTPException(status_code=400, detail=f"Invalid or unsupported level: {level}")
 @router.get("/charts/{level}/yearly")
 def get_yearly_chart_data(level: str, state: str = Query(None)):
     """
